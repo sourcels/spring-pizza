@@ -1,30 +1,37 @@
 package com.example.pizza.services;
 
 import com.example.pizza.models.ProductPizza;
+import com.example.pizza.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class ProductService {
-    private List<ProductPizza> products = new ArrayList<>();
-    private long ID = 0;
+    private final ProductRepository productRepository;
 
-    {
-        products.add(new ProductPizza(++ID,"DodoPizza", 987654321L ,"pizzastr. 82, Berlin 12305"));
-        products.add(new ProductPizza(++ID,"Gobos", 987654321L,"pizzastr. 83, Berlin 12305"));
-        products.add(new ProductPizza(++ID,"Papajoe",987654321L ,"pizzastr. 84, Berlin 12305"));
+    public List<ProductPizza> list(String name) {
+        if (name != null) productRepository.findByName(name);
+        return productRepository.findAll();
     }
 
-    public List<ProductPizza> list() { return products;}
-
     public void saveProductPizza(ProductPizza product) {
-        product.setId(++ID);
-        products.add(product);
+        if (product != null && !product.getName().equals(null)) {
+            log.info("Saving new {}", product);
+            productRepository.save(product);
+        }
     }
 
     public void deleteProductPizza(Long id) {
-        products.removeIf(productPizza -> productPizza.getId().equals(id));
+        productRepository.deleteById(id);
+    }
+
+    public void getProductPizza(Long id) {
+        productRepository.findById(id).orElse(null);
     }
 }
