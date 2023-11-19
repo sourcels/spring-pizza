@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="products")
+@Table(name="pizzerias")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductPizza {
+public class PizzeriaModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id")
@@ -18,7 +18,7 @@ public class ProductPizza {
     @Column(name= "name")
     private String name;
     @Column(name= "phone")
-    private Long phone;
+    private String phone;
     @Column(name= "address")
     private String address;
     @Column(name= "description", columnDefinition = "text")
