@@ -12,27 +12,28 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class PizzeriaService {
-    private final PizzeriaRepository productRepository;
+    private final PizzeriaRepository pizzeriaRepository;
 
-    public List<PizzeriaModel> list(String name) {
-        if (name != null) return productRepository.findByName(name);
-        return productRepository.findAll();
+    public List<PizzeriaModel> listPizzerias(String name) {
+        if (name != null) return pizzeriaRepository.findByName(name);
+        return pizzeriaRepository.findAll();
     }
 
-    public boolean saveProductPizza(PizzeriaModel product) {
+    public void getPizzeria(Long id) {
+        pizzeriaRepository.findById(id).orElse(null);
+    }
+
+    public void savePizzeria(PizzeriaModel product) {
         if (product != null && product.getName() != "") {
             log.info("Saving new {}", product);
-            productRepository.save(product);
-            return true;
+            pizzeriaRepository.save(product);
         }
-        throw new IllegalArgumentException("Product object or its name is empty");
+        else {
+            throw new IllegalArgumentException("Product object or its name is empty");
+        }
     }
 
-    public void deleteProductPizza(Long id) {
-        productRepository.deleteById(id);
-    }
-
-    public void getProductPizza(Long id) {
-        productRepository.findById(id).orElse(null);
+    public void deletePizzeria(Long id) {
+        pizzeriaRepository.deleteById(id);
     }
 }

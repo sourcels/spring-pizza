@@ -17,19 +17,19 @@ public class PizzaController {
 
     @GetMapping("/")
     public String products(@RequestParam(name = "name", required = false) String name,Model model) {
-        model.addAttribute("pizzerias", pizzeriaService.list(name));
+        model.addAttribute("pizzerias", pizzeriaService.listPizzerias(name));
         return "pizzerias";
     }
 
     @PostMapping("/product/create")
     public String createProductPizza(PizzeriaModel product) {
-        if (pizzeriaService.saveProductPizza(product)) return "redirect:/";
+        pizzeriaService.savePizzeria(product);
         return "redirect:/";
     }
 
     @PostMapping("/product/delete/{id}")
     public String deleteProductPizza(@PathVariable Long id) {
-        pizzeriaService.deleteProductPizza(id);
+        pizzeriaService.deletePizzeria(id);
         return "redirect:/";
     }
 
