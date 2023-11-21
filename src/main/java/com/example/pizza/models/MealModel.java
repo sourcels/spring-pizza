@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Table(name="meals")
 @Data
@@ -12,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MealModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "meal_id")
-    private Long id;
+    private Long meal_id;
 
     @Column(name = "name", length = 64)
     private String name;

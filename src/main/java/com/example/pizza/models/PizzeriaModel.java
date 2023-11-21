@@ -14,9 +14,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class PizzeriaModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "pizzeria_id")
-    private Long id;
+    private Long pizzeria_id;
 
     @Column(name= "name")
     private String name;
@@ -29,7 +29,4 @@ public class PizzeriaModel {
 
     @Column(name= "description", columnDefinition = "text")
     private String description;
-
-    @OneToMany(mappedBy = "pizzeria")
-    private Set<MealModel> pizzeriaMeals;
 }

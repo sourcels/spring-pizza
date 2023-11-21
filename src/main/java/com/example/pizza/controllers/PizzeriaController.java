@@ -5,29 +5,39 @@ import com.example.pizza.services.PizzeriaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
+@RequestMapping("/pizzerias")
 @RequiredArgsConstructor
-public class PizzaController {
+public class PizzeriaController {
     private final PizzeriaService pizzeriaService;
 
-    @GetMapping("/")
+    @GetMapping
     public String products(@RequestParam(name = "name", required = false) String name,Model model) {
         model.addAttribute("pizzerias", pizzeriaService.listPizzerias(name));
         return "pizzerias";
     }
 
-    @PostMapping("/product/create")
+    @GetMapping("/{pizzeria_id}")
+    public String getMealById(@PathVariable Long pizzeria_id, Model model) {
+        PizzeriaModel pizzeria = pizzeriaService.getPizzeriaById(pizzeria_id);
+        if (pizzeria != null) {
+            model.addAttribute("pizzeria", pizzeria);
+            return "redirect:/pizzeria";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+    @PostMapping("/create")
     public String createProductPizza(PizzeriaModel product) {
         pizzeriaService.savePizzeria(product);
         return "redirect:/";
     }
 
-    @PostMapping("/product/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteProductPizza(@PathVariable Long id) {
         pizzeriaService.deletePizzeria(id);
         return "redirect:/";
@@ -35,7 +45,6 @@ public class PizzaController {
 
     @GetMapping("/error")
     public String handleError(Model model) {
-        // Обработка ошибок и отображение информации об ошибке на странице
         return "redirect:/error";
     }
 }
