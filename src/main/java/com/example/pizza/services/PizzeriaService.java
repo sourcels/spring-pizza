@@ -2,6 +2,7 @@ package com.example.pizza.services;
 
 import com.example.pizza.models.PizzeriaModel;
 import com.example.pizza.repositories.PizzeriaRepository;
+import com.example.pizza.repositories.PizzeriaToMealsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PizzeriaService {
     private final PizzeriaRepository pizzeriaRepository;
+    private final PizzeriaToMealsRepository pizzeriaToMealsRepository;
 
     public List<PizzeriaModel> listPizzerias(String name) {
         if (name != null) return pizzeriaRepository.findByName(name);
@@ -33,6 +35,12 @@ public class PizzeriaService {
             throw new IllegalArgumentException("Product object or its name is empty");
         }
     }
+
+    /*public void addMealsToPizzeria(Long pizzeria_id, List<Long> meals) {
+        for (Long meal : meals) {
+            pizzeriaToMealsRepository.save();
+        }
+    }*/
 
     public void deletePizzeria(Long id) {
         pizzeriaRepository.deleteById(id);

@@ -1,26 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PIZZA</title>
+    <title>Pizzerias</title>
 </head>
 <body>
-<h1>Pizza</h1><hr>
-<h4>Pizza list</h4>
-<#list pizzerias as product>
-    <div>
-        <p>${product.name} - ${product.phone} - ${product.address} | <form action="/pizzerias/delete/${product.pizzeria_id}" method="post"><input type="submit" value="Delete"/></form></p>
-    </div>
-    <#else>
-    <h3>No pizzerias!</h3>
-</#list><hr>
-<h3>New property:</h3>
+
+<h1>List of Pizzerias</h1>
+<#if pizzerias?size == 0>
+    No pizzerias!
+<#else>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Phone</th>
+        <th>Address</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <#list pizzerias as pizzeria>
+        <tr>
+            <td>${pizzeria.pizzeria_id}</td>
+            <td>${pizzeria.phone}</td>
+            <td>${pizzeria.address}</td>
+            <td>${pizzeria.description}</td>
+            <td>
+                <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+                <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
+                    <button type="submit">Details</button>
+                </form>
+            </td>
+        </tr>
+    </#list>
+    </tbody>
+</table>
+</#if>
+<h2>Add New Pizzeria</h2>
+
 <form action="/pizzerias/create" method="post">
-    Pizza name: <input type="text" name="name"/><br><br>
-    Pizza phone: <input type="text" maxlength="13" name="phone"/><br><br>
-    Pizza address: <input type="text" name="address"/><br><br>
-    <button type="submit">Add</button>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone" required><br>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" required><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required><br>
+
+    <button type="submit">Add Pizzeria</button>
 </form>
+
 </body>
 </html>

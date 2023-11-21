@@ -14,14 +14,12 @@ import java.util.Optional;
 @RequestMapping("/meals")
 @RequiredArgsConstructor
 public class MealController {
-
     private final MealService mealService;
 
     @GetMapping
     public String meals(Model model) {
-        List<MealModel> meals = mealService.getAllMeals();
-        model.addAttribute("meals", meals);
-        return "meals/list";
+        model.addAttribute("meals", mealService.getAllMeals());
+        return "meals";
     }
 
     @PostMapping("/create")
