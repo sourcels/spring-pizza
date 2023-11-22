@@ -1,6 +1,9 @@
 package com.example.pizza.services;
 
+import com.example.pizza.models.MealModel;
+import com.example.pizza.models.PizzeriaMealsModel;
 import com.example.pizza.models.PizzeriaModel;
+import com.example.pizza.repositories.MealRepository;
 import com.example.pizza.repositories.PizzeriaRepository;
 import com.example.pizza.repositories.PizzeriaToMealsRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,13 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class PizzeriaService {
     private final PizzeriaRepository pizzeriaRepository;
+    private final MealRepository mealRepository;
     private final PizzeriaToMealsRepository pizzeriaToMealsRepository;
 
     public List<PizzeriaModel> listPizzerias(String name) {
@@ -26,23 +29,28 @@ public class PizzeriaService {
         return pizzeriaRepository.findById(id).orElse(null);
     }
 
-    public void savePizzeria(PizzeriaModel product) {
-        if (product != null && product.getName() != "") {
-            log.info("Saving new {}", product);
-            pizzeriaRepository.save(product);
+    public void savePizzeria(PizzeriaModel pizzeria) {
+        if (pizzeria != null && pizzeria.getName() != "") {
+            log.info("Saving new {}", pizzeria);
+            pizzeriaRepository.save(pizzeria);
         }
         else {
             throw new IllegalArgumentException("Product object or its name is empty");
         }
     }
 
-    /*public void addMealsToPizzeria(Long pizzeria_id, List<Long> meals) {
-        for (Long meal : meals) {
-            pizzeriaToMealsRepository.save();
-        }
-    }*/
+    public void addMealsToPizzeria(Long pizzeria_id, Long meal_id) {
+        PizzeriaModel pizzeria = pizzeriaRepository.getById(pizzeria_id);
+        MealModel meal = mealRepository.getById(meal_id);
 
-    public void deletePizzeria(Long id) {
-        pizzeriaRepository.deleteById(id);
+        PizzeriaMealsModel pizzeriaToMeals = new PizzeriaMealsModel();
+        pizzeriaToMeals.setPizzeria(pizzeria);
+        pizzeriaToMeals.setMeal(meal);
+
+        pizzeriaToMealsRepository.save(pizzeriaToMeals);
+        log.info("Saving new {}", pizzeriaToMeals);
+    }
+
+    public void deletePizzeria(Long id) {pizzeriaRepository.deleteById(id);
     }
 }

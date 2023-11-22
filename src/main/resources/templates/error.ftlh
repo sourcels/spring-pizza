@@ -11,8 +11,11 @@
 <div>
     <p>Oops! Something went wrong.</p>
 
+    <p>Error message:</p>
+    <pre>${(errorMessage?has_content)?then(errorMessage, ' - ')}</pre>
+
     <p>Error details:</p>
-    <pre>${error}</pre>
+    <pre>${(error?has_content)?then(error, ' - ')}</pre>
 </div>
 </body>
 </html>

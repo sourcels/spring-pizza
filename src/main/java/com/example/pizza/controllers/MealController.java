@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,26 +21,26 @@ public class MealController {
         return "meals";
     }
 
+    @GetMapping("/{meal_id}")
+    public String getMealById(@PathVariable Long meal_id, Model model) {
+        Optional<MealModel> optionalMeal = mealService.getMealById(meal_id);
+        if (optionalMeal.isPresent()) {
+            model.addAttribute("meal", optionalMeal.get());
+            return "meal_detail";
+        } else {
+            return "redirect:/meals";
+        }
+    }
+
     @PostMapping("/create")
     public String createMeal(@ModelAttribute MealModel meal) {
         mealService.saveMeal(meal);
         return "redirect:/meals";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteMeal(@PathVariable Long id) {
-        mealService.deleteMeal(id);
+    @PostMapping("/delete")
+    public String deleteMeal(@RequestParam Long meal_id) {
+        mealService.deleteMeal(meal_id);
         return "redirect:/meals";
-    }
-
-    @GetMapping("/{id}")
-    public String getMealById(@PathVariable Long id, Model model) {
-        Optional<MealModel> optionalMeal = mealService.getMealById(id);
-        if (optionalMeal.isPresent()) {
-            model.addAttribute("meal", optionalMeal.get());
-            return "meals/details";
-        } else {
-            return "redirect:/meals";
-        }
     }
 }

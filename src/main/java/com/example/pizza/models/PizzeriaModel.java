@@ -18,13 +18,13 @@ public class PizzeriaModel {
     @Column(name= "pizzeria_id")
     private Long pizzeria_id;
 
-    @Column(name= "name")
+    @Column(name= "name", length=64)
     private String name;
 
-    @Column(name= "phone")
+    @Column(name= "phone", length=12)
     private String phone;
 
-    @Column(name= "address")
+    @Column(name= "address", length=128)
     private String address;
 
     @Column(name= "description", columnDefinition = "text")

@@ -1,10 +1,16 @@
 package com.example.pizza.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "pizzerias_2_meal", uniqueConstraints = @UniqueConstraint(columnNames = {"pizzeria_id", "meal_id"}))
-public class PizzeriaMeals {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PizzeriaMealsModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name= "id")

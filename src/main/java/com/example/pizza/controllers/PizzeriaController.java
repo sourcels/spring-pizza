@@ -31,7 +31,7 @@ public class PizzeriaController {
         List<MealModel> allMeals = mealService.getAllMeals();
         if (pizzeria != null) {
             model.addAttribute("pizzeria", pizzeria);
-            model.addAttribute("allMeals", allMeals);
+            model.addAttribute("meals", allMeals);
             return "pizzeria_detail";
         } else {
             return "redirect:/";
@@ -44,20 +44,15 @@ public class PizzeriaController {
         return "redirect:/";
     }
 
+    @PostMapping("/addMeal")
+    public String addMealsToPizzeria(@RequestParam Long pizzeria_id, @RequestParam Long meal_id) {
+        pizzeriaService.addMealsToPizzeria(pizzeria_id, meal_id);
+        return String.format("redirect:/pizzerias/%d", pizzeria_id);
+    }
+
     @PostMapping("/delete/{pizzeria_id}")
     public String deletePizzeria(@PathVariable Long pizzeria_id) {
         pizzeriaService.deletePizzeria(pizzeria_id);
         return "redirect:/";
-    }
-
-    @PostMapping("/addMeals/{pizzeria_id}")
-    public String addMealsToPizzeria(@RequestParam Long pizzeria_id, @RequestParam List<Long> meals) {
-        pizzeriaService.addMealsToPizzeria(pizzeria_id, meals);
-        return String.format("redirect:/pizzeria/%d", pizzeria_id);
-    }
-
-    @GetMapping("/error")
-    public String handleError(Model model) {
-        return "redirect:/error";
     }
 }
