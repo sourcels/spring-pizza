@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="meals_create_dialog.js"></script>
+    <script src="create_dialog.js"></script>
 </head>
 <body>
 <div id="dialog-form" title="Add Meal">
@@ -52,7 +52,8 @@
                 <td>${(meal.price?has_content)?then(meal.price, 0)}</td>
                 <td>${(meal.category?has_content)?then(meal.category, ' - ')}</td>
                 <td>
-                    <form action="/meals/delete/${meal.meal_id}" method="post">
+                    <form action="/meals/delete" method="post">
+                        <input type="hidden" name="meal_id" value="${meal.meal_id}">
                         <button type="submit">Delete</button>
                     </form>
                     <form action="/meals/${meal.meal_id}" method="get">

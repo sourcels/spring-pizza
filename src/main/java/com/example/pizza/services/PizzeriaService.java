@@ -1,16 +1,16 @@
 package com.example.pizza.services;
 
 import com.example.pizza.models.MealModel;
-import com.example.pizza.models.PizzeriaMealsModel;
 import com.example.pizza.models.PizzeriaModel;
 import com.example.pizza.repositories.MealRepository;
 import com.example.pizza.repositories.PizzeriaRepository;
-import com.example.pizza.repositories.PizzeriaToMealsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -18,15 +18,14 @@ import java.util.List;
 public class PizzeriaService {
     private final PizzeriaRepository pizzeriaRepository;
     private final MealRepository mealRepository;
-    private final PizzeriaToMealsRepository pizzeriaToMealsRepository;
 
-    public List<PizzeriaModel> listPizzerias(String name) {
+    public List<PizzeriaModel> getAllPizzerias(String name) {
         if (name != null) return pizzeriaRepository.findByName(name);
         return pizzeriaRepository.findAll();
     }
 
-    public PizzeriaModel getPizzeriaById(Long id) {
-        return pizzeriaRepository.findById(id).orElse(null);
+    public PizzeriaModel getPizzeriaById(Long pizzeriaId) {
+        return pizzeriaRepository.findById(pizzeriaId).orElse(null);
     }
 
     public void savePizzeria(PizzeriaModel pizzeria) {
@@ -35,20 +34,36 @@ public class PizzeriaService {
             pizzeriaRepository.save(pizzeria);
         }
         else {
-            throw new IllegalArgumentException("Product object or its name is empty");
+            throw new IllegalArgumentException("Pizzeria object or its name is empty");
         }
     }
 
-    public void addMealsToPizzeria(Long pizzeria_id, Long meal_id) {
-        PizzeriaModel pizzeria = pizzeriaRepository.getById(pizzeria_id);
-        MealModel meal = mealRepository.getById(meal_id);
+    public Set<MealModel> getAllMealsInPizzeria(Long pizzeriaId) {
+        Optional<PizzeriaModel> optionalPizzeria = pizzeriaRepository.findById(pizzeriaId);
 
-        PizzeriaMealsModel pizzeriaToMeals = new PizzeriaMealsModel();
-        pizzeriaToMeals.setPizzeria(pizzeria);
-        pizzeriaToMeals.setMeal(meal);
+        if (optionalPizzeria.isPresent()) {
+            PizzeriaModel pizzeria = optionalPizzeria.get();
+            return pizzeria.getMeals();
+        }
+        return Set.of();
+    }
 
-        pizzeriaToMealsRepository.save(pizzeriaToMeals);
-        log.info("Saving new {}", pizzeriaToMeals);
+    public void addMealToPizzeria(Long pizzeriaId, Long mealId) {
+        Optional<MealModel> optionalMeal = mealRepository.findById(mealId);
+        Optional<PizzeriaModel> optionalPizzeria = pizzeriaRepository.findById(pizzeriaId);
+
+        if (optionalMeal.isPresent() && optionalPizzeria.isPresent()) {
+            MealModel meal = optionalMeal.get();
+            PizzeriaModel pizzeria = optionalPizzeria.get();
+
+            pizzeria.getMeals().add(meal);
+            pizzeriaRepository.save(pizzeria);
+
+            meal.getPizzerias().add(pizzeria);
+            mealRepository.save(meal);
+        } else {
+            throw new IllegalArgumentException("Product name is empty or doesn't exists");
+        }
     }
 
     public void deletePizzeria(Long id) {pizzeriaRepository.deleteById(id);

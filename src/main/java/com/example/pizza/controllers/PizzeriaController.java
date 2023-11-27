@@ -21,13 +21,13 @@ public class PizzeriaController {
 
     @GetMapping
     public String products(@RequestParam(name = "name", required = false) String name,Model model) {
-        model.addAttribute("pizzerias", pizzeriaService.listPizzerias(name));
+        model.addAttribute("pizzerias", pizzeriaService.getAllPizzerias(name));
         return "pizzerias";
     }
 
-    @GetMapping("/{pizzeria_id}")
-    public String getPizzeriaById(@PathVariable Long pizzeria_id, Model model) {
-        PizzeriaModel pizzeria = pizzeriaService.getPizzeriaById(pizzeria_id);
+    @GetMapping("/{pizzeriaId}")
+    public String getPizzeriaById(@PathVariable Long pizzeriaId, Model model) {
+        PizzeriaModel pizzeria = pizzeriaService.getPizzeriaById(pizzeriaId);
         List<MealModel> allMeals = mealService.getAllMeals();
         if (pizzeria != null) {
             model.addAttribute("pizzeria", pizzeria);
@@ -45,14 +45,14 @@ public class PizzeriaController {
     }
 
     @PostMapping("/addMeal")
-    public String addMealsToPizzeria(@RequestParam Long pizzeria_id, @RequestParam Long meal_id) {
-        pizzeriaService.addMealsToPizzeria(pizzeria_id, meal_id);
-        return String.format("redirect:/pizzerias/%d", pizzeria_id);
+    public String addMealsToPizzeria(@RequestParam Long pizzeriaId, @RequestParam Long mealId) {
+        pizzeriaService.addMealToPizzeria(pizzeriaId, mealId);
+        return String.format("redirect:/pizzerias/%d", pizzeriaId);
     }
 
-    @PostMapping("/delete/{pizzeria_id}")
-    public String deletePizzeria(@PathVariable Long pizzeria_id) {
-        pizzeriaService.deletePizzeria(pizzeria_id);
+    @PostMapping("/delete/{pizzeriaId}")
+    public String deletePizzeria(@PathVariable Long pizzeriaId) {
+        pizzeriaService.deletePizzeria(pizzeriaId);
         return "redirect:/";
     }
 }

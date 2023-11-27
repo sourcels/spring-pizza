@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="pizzerias_create_dialog.js"></script>
+    <script src="create_dialog.js"></script>
 </head>
 <body>
 <div id="dialog-form" title="Add Pizzeria">
@@ -18,7 +18,7 @@
         <input type="text" id="name" name="name" maxlength="64" required><br>
 
         <label for="phone">Phone:</label>
-        <input type="text" id="phone" name="phone" maxlength="15" required><br>
+        <input type="text" id="phone" name="phone" maxlength="12" required><br>
 
         <label for="address">Address:</label>
         <input type="text" id="address" name="address" maxlength="128" required><br>

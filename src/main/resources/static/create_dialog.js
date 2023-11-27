@@ -1,4 +1,8 @@
 $(function() {
+    $("#addPizzeriaButton").on("click", function() {
+        $("#dialog-form").dialog("open");
+    });
+
     $("#addMealButton").on("click", function() {
         $("#dialog-form").dialog("open");
     });

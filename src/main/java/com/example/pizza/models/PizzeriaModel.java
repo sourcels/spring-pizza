@@ -29,4 +29,7 @@ public class PizzeriaModel {
 
     @Column(name= "description", columnDefinition = "text")
     private String description;
+
+    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL)
+    private Set<MealModel> meals;
 }
