@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -18,7 +20,7 @@ public class PizzeriaModel {
     @Column(name= "pizzeria_id")
     private Long pizzeria_id;
 
-    @Column(name= "name", length=64)
+    @Column(name= "name", length=64, unique = true)
     private String name;
 
     @Column(name= "phone", length=12)
@@ -30,6 +32,16 @@ public class PizzeriaModel {
     @Column(name= "description", columnDefinition = "text")
     private String description;
 
-    @OneToMany(mappedBy = "pizza", cascade = CascadeType.ALL)
-    private Set<MealModel> meals;
+    @ManyToMany
+    @JoinTable(
+            name = "pizzeria_meal",
+            joinColumns = @JoinColumn(name = "pizzeria_id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_id")
+    )
+    private Set<MealModel> meals = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pizzeria_id);
+    }
 }

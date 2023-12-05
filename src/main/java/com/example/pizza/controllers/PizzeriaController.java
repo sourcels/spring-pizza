@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -20,7 +21,7 @@ public class PizzeriaController {
     private final MealService mealService;
 
     @GetMapping
-    public String products(@RequestParam(name = "name", required = false) String name,Model model) {
+    public String products(@RequestParam(name = "name", required = false) String name, Model model) {
         model.addAttribute("pizzerias", pizzeriaService.getAllPizzerias(name));
         return "pizzerias";
     }
@@ -28,20 +29,24 @@ public class PizzeriaController {
     @GetMapping("/{pizzeriaId}")
     public String getPizzeriaById(@PathVariable Long pizzeriaId, Model model) {
         PizzeriaModel pizzeria = pizzeriaService.getPizzeriaById(pizzeriaId);
-        List<MealModel> allMeals = mealService.getAllMeals();
+        Set<MealModel> allPizzeriaMeals = pizzeriaService.getAllMealsInPizzeria(pizzeriaId);
+        List<MealModel> allMealsNotInPizzeria = pizzeriaService.getMealsNotInPizzeria(pizzeriaId);
+        Set<MealModel> allMeals = mealService.getAllMeals();
         if (pizzeria != null) {
             model.addAttribute("pizzeria", pizzeria);
             model.addAttribute("meals", allMeals);
+            model.addAttribute("mealsNotInPizzeria", allMealsNotInPizzeria);
+            model.addAttribute("pizzeriaMeals", allPizzeriaMeals);
             return "pizzeria_detail";
         } else {
-            return "redirect:/";
+            return "redirect:/pizzerias";
         }
     }
 
     @PostMapping("/create")
     public String createPizzeria(PizzeriaModel pizzeria) {
         pizzeriaService.savePizzeria(pizzeria);
-        return "redirect:/";
+        return "redirect:/pizzerias";
     }
 
     @PostMapping("/addMeal")
@@ -50,9 +55,16 @@ public class PizzeriaController {
         return String.format("redirect:/pizzerias/%d", pizzeriaId);
     }
 
+    @PostMapping("/deleteMeal")
+    public String deletePizzeriaMeal(@RequestParam Long mealId, @RequestParam Long pizzeriaId) {
+        pizzeriaService.removePizzeriaMeal(pizzeriaId, mealId);
+        return String.format("redirect:/pizzerias/%d", pizzeriaId);
+    }
+
     @PostMapping("/delete/{pizzeriaId}")
     public String deletePizzeria(@PathVariable Long pizzeriaId) {
+        pizzeriaService.removePizzeriaMeals(pizzeriaId);
         pizzeriaService.deletePizzeria(pizzeriaId);
-        return "redirect:/";
+        return "redirect:/pizzerias";
     }
 }

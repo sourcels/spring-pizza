@@ -39,8 +39,9 @@ public class MealController {
     }
 
     @PostMapping("/delete")
-    public String deleteMeal(@RequestParam Long meal_id) {
-        mealService.deleteMeal(meal_id);
+    public String deleteMeal(@RequestParam Long mealId) {
+        mealService.removeAllPizzeriasFromMeal(mealId);
+        mealService.deleteMeal(mealId);
         return "redirect:/meals";
     }
 }
