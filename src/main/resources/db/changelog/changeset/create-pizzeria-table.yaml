@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-pizzeria
+      author: sourcels
+      changes:
+        - createTable:
+            tableName: pizzerias
+            columns:
+              - column:
+                  name: pizzeria_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: phone
+                  type: VARCHAR(12)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: VARCHAR(128)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+                  constraints:
+                    nullable: true

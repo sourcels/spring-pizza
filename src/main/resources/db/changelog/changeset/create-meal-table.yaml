@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-meal
+      author: sourcels
+      changes:
+        - createTable:
+            tableName: meals
+            columns:
+              - column:
+                  name: meal_id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(64)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: price
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pizzeria_id
+                  type: BIGINT
+                  constraints:
+                    references: pizzerias(pizzeria_id)
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: meals
+            baseColumnNames: pizzeria_id
+            referencedTableName: pizzerias
+            referencedColumnNames: pizzeria_id
+            constraintName: FK_meals_pizzerias

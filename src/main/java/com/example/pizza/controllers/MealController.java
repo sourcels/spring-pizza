@@ -21,9 +21,9 @@ public class MealController {
         return "meals";
     }
 
-    @GetMapping("/{meal_id}")
-    public String getMealById(@PathVariable Long meal_id, Model model) {
-        Optional<MealModel> optionalMeal = mealService.getMealById(meal_id);
+    @GetMapping("/{mealId}")
+    public String getMealById(@PathVariable Long mealId, Model model) {
+        Optional<MealModel> optionalMeal = mealService.getMealById(mealId);
         if (optionalMeal.isPresent()) {
             model.addAttribute("meal", optionalMeal.get());
             return "meal_detail";
@@ -36,6 +36,12 @@ public class MealController {
     public String createMeal(@ModelAttribute MealModel meal) {
         mealService.saveMeal(meal);
         return "redirect:/meals";
+    }
+
+    @PostMapping("/edit/{mealId}")
+    public String editMeal(@PathVariable Long mealId, MealModel meal) {
+        mealService.editMeal(mealId, meal);
+        return String.format("redirect:/meals/%d", mealId);
     }
 
     @PostMapping("/delete")

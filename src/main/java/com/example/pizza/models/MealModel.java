@@ -29,8 +29,9 @@ public class MealModel {
     @Column(name = "price")
     private int price;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "category", length = 64)
-    private String category;
+    private MealCategory category;
 
     @ManyToMany(mappedBy = "meals")
     private Set<PizzeriaModel> pizzerias = new HashSet<>();

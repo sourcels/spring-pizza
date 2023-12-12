@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-pizzeria-meals
+      author: sourcels
+      changes:
+        - createTable:
+            tableName: pizzeria_meal
+            columns:
+              - column:
+                  name: pizzeria_id
+                  type: BIGINT
+                  constraints:
+                    references: pizzerias(pizzeria_id)
+              - column:
+                  name: meal_id
+                  type: BIGINT
+                  constraints:
+                    references: meals(meal_id)

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,7 @@
 <body>
 
     <header>
-        <h1>Welcome to Pizza-Panel</h1>
+        <h1>Pizza-Panel</h1>
     </header>
 
     <nav>
@@ -19,7 +18,7 @@
         <a href="/pizzerias" class="<#if springMacroRequestContext.requestUri?contains("/pizzerias")>active</#if>">Pizzerias</a>
         <a href="/meals" class="<#if springMacroRequestContext.requestUri?contains("/meals")>active</#if>">Meals</a>
         <input type="text" id="nameInput" placeholder="Pizzeria name" onkeydown="handleEnter(event)">
-        <form th:action="@{/logout}" method="post">
+        <form action="/logout" method="post">
             <input type="hidden" name="_csrf" value="${_csrf.token}">
             <input type="submit" value="Sign Out"/>
         </form>
@@ -31,24 +30,24 @@
                 <#if pizzerias?size == 0>
                     No pizzerias! You can create them on <a href="/pizzerias">this page</a>.
                 <#else>
-                    <p>Meals</p>
-                    <table class="pizzeria-table">
+                    <p>Pizzerias</p>
+                    <table class="pizzeria-table" id="pizzerias_table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Description</th>
+                            <th>Name <button onclick="sortTable('pizzerias_table', 0)">Sort</button></th>
+                            <th>Phone <button onclick="sortTable('pizzerias_table', 1)">Sort</button></th>
+                            <th>Address <button onclick="sortTable('pizzerias_table', 2)">Sort</button></th>
+                            <th>Description <button onclick="sortTable('pizzerias_table', 3)">Sort</button></th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <#list pizzerias as pizzeria>
                             <tr>
-                                <td>${(pizzeria.name?has_content)?then(pizzeria.name, ' - ')}</td>
-                                <td>${(pizzeria.phone?has_content)?then(pizzeria.phone, ' - ')}</td>
-                                <td>${(pizzeria.address?has_content)?then(pizzeria.address, ' - ')}</td>
-                                <td>${(pizzeria.description?has_content)?then(pizzeria.description, ' - ')}</td>
+                                <td>${pizzeria.getName()}</td>
+                                <td>${pizzeria.getPhone()}</td>
+                                <td>${pizzeria.getAddress()}</td>
+                                <td>${pizzeria.getDescription()}</td>
                                 <td>
                                     <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
                                         <input type="hidden" name="_csrf" value="${_csrf.token}">
@@ -66,24 +65,24 @@
                 <#if meals?size == 0>
                     No meals! You can create them on <a href="/meals">this page</a>.
                 <#else>
-                    <p>Pizzerias</p>
-                    <table class="meal-table">
+                    <p>Meals</p>
+                    <table class="meal-table" id="meals_table">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Category</th>
+                            <th>Name <button onclick="sortTable('meals_table', 0)">Sort</button></th>
+                            <th>Description <button onclick="sortTable('meals_table', 1)">Sort</button></th>
+                            <th>Price <button onclick="sortTable('meals_table', 2)">Sort</button></th>
+                            <th>Category <button onclick="sortTable('meals_table', 3)">Sort</button></th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <#list meals as meal>
                             <tr>
-                                <td>${(meal.name?has_content)?then(meal.name, ' - ')}</td>
-                                <td>${(meal.description?has_content)?then(meal.description, ' - ')}</td>
-                                <td>${(meal.price?has_content)?then(meal.price, 0)}</td>
-                                <td>${(meal.category?has_content)?then(meal.category, ' - ')}</td>
+                                <td>${meal.getName()}</td>
+                                <td>${meal.getDescription()}</td>
+                                <td>${meal.getPrice()}</td>
+                                <td>${meal.getCategory()}</td>
                                 <td>
                                     <form action="/meals/${meal.meal_id}" method="get">
                                         <input type="hidden" name="_csrf" value="${_csrf.token}">

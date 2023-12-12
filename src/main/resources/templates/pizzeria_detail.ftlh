@@ -1,93 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/detail.css">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="../scripts/script.js"></script>
         <title>${(pizzeria.name?has_content)?then(pizzeria.name, 'Pizzeria')} Details</title>
     </head>
     <body>
+        <header>
+            <h1>Pizza-Panel</h1>
+        </header>
 
-        <h1>Pizzeria Details</h1>
+        <nav>
+            <a href="/" class="<#if springMacroRequestContext.requestUri == "/">active</#if>">Main Page</a>
+            <a href="/pizzerias" class="<#if springMacroRequestContext.requestUri == "/pizzerias">active</#if>">Pizzerias</a>
+            <a href="/meals" class="<#if springMacroRequestContext.requestUri == "/meals">active</#if>">Meals</a>
+            <form action="/logout" method="post">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </nav>
 
         <#if pizzeria??>
-            <dl>
-                <dt>Name:</dt>
-                <dd>${(pizzeria.name?has_content)?then(pizzeria.name, ' - ')}</dd>
+            <div class="pizzeria-details">
+                <dl class="pizzeria-details-list">
+                    <dt>Name:</dt>
+                    <dd>${pizzeria.getName()}</dd>
 
-                <dt>Phone:</dt>
-                <dd>${(pizzeria.phone?has_content)?then(pizzeria.phone, ' - ')}</dd>
+                    <dt>Phone:</dt>
+                    <dd>${pizzeria.getPhone()}</dd>
 
-                <dt>Address:</dt>
-                <dd>${(pizzeria.address?has_content)?then(pizzeria.address, ' - ')}</dd>
+                    <dt>Address:</dt>
+                    <dd>${pizzeria.getAddress()}</dd>
 
-                <dt>Description:</dt>
-                <dd>${(pizzeria.description?has_content)?then(pizzeria.description, ' - ')}</dd>
+                    <dt>Description:</dt>
+                    <dd>${pizzeria.getDescription()}</dd>
 
-                <dt>Pizzeria ID:</dt>
-                <dd>${pizzeria.pizzeria_id}</dd>
-            </dl>
+                    <dt>Pizzeria ID:</dt>
+                    <dd>${pizzeria.pizzeria_id}</dd>
+                </dl>
 
-            <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post">
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <button type="submit">Delete Pizzeria</button>
-            </form>
-            <#if meals?size == 0>
-                Select Meal: no meal available, you can <a href="/meals">create meal</a>.
-            <#elseif mealsNotInPizzeria?size == 0>
-                All meals are already in this pizzeria.
-            <#else>
-            <h2>Add Meals</h2>
-            <form action="/pizzerias/addMeal" method="post">
-                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <label for="mealId">Select Meal:</label>
-                <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
-                <select name="mealId" id="meal_id">
-                    <#list meals as meal>
-                        <option value="${meal.meal_id}">${meal.name}</option>
-                    </#list>
-                </select>
-                <button type="submit">Add</button>
-            </form>
-            </#if>
+                <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                    <button class="delete-btn" type="submit">Delete Pizzeria</button>
+                </form>
+                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${pizzeria.pizzeria_id},'name': '${pizzeria.name}', 'phone': '${pizzeria.phone}', 'address': '${pizzeria.address}', 'description': '${pizzeria.description}'})">Edit Pizzeria</button>
+                <#if meals?size == 0>
+                    <p class="not-found">Select Meal: no meal available, you can <a href="/meals">create meal</a>.</p>
+                <#elseif mealsNotInPizzeria?size == 0>
+                    <p class="not-found">All meals are already in this pizzeria.</p>
+                <#else>
+                    <div class="add-meals-container">
+                        <h2>Add Meals</h2>
+                        <form action="/pizzerias/addMeal" method="post">
+                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                            <label for="mealId">Select Meal:</label>
+                            <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
+                            <select name="mealId" id="meal_id">
+                                <#list mealsNotInPizzeria as mealNotInPizzeria>
+                                    <option value="${mealNotInPizzeria.meal_id}">${mealNotInPizzeria.name}</option>
+                                </#list>
+                            </select>
+                            <button type="submit">Add</button>
+                        </form>
+                    </div>
+                </#if>
 
-            <table border="1">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list pizzeriaMeals as pizzeriaMeal>
+                <table class="meals-table">
+                    <thead>
                     <tr>
-                        <td>${(pizzeriaMeal.name?has_content)?then(pizzeriaMeal.name, ' - ')}</td>
-                        <td>${(pizzeriaMeal.description?has_content)?then(pizzeriaMeal.description, ' - ')}</td>
-                        <td>${(pizzeriaMeal.price?has_content)?then(pizzeriaMeal.price, 0)}</td>
-                        <td>${(pizzeriaMeal.category?has_content)?then(pizzeriaMeal.category, ' - ')}</td>
-                        <td>
-                            <form action="/pizzerias/deleteMeal" method="post">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <input type="hidden" name="mealId" value="${pizzeriaMeal.meal_id}">
-                                <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <form action="/meals/${pizzeriaMeal.meal_id}" method="get">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <button type="submit">Details</button>
-                            </form>
-                        </td>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Actions</th>
                     </tr>
-                </#list>
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody>
+                    <#list pizzeriaMeals as pizzeriaMeal>
+                        <tr>
+                            <td>${pizzeriaMeal.getName()}</td>
+                            <td>${pizzeriaMeal.getDescription()}</td>
+                            <td>${pizzeriaMeal.getPrice()}</td>
+                            <td>${pizzeriaMeal.getCategory()}</td>
+                            <td>
+                                <form action="/pizzerias/deleteMeal" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                    <input type="hidden" name="mealId" value="${pizzeriaMeal.meal_id}">
+                                    <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
+                                    <button type="submit">Delete</button>
+                                </form>
+                                <form action="/meals/${pizzeriaMeal.meal_id}" method="get">
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                    <button type="submit">Details</button>
+                                </form>
+                            </td>
+                        </tr>
+                    </#list>
+                    </tbody>
+                </table>
+            </div>
         <#else>
-            <p>Pizzeria not found.</p>
+            <p class="not-found">Pizzeria not found.</p>
         </#if>
 
     </body>
-    <footer></footer>
+    <footer>
+        <a href="https://github.com/sourcels/spring-pizza" target="_blank">Project on GitHub</a>
+    </footer>
 </html>

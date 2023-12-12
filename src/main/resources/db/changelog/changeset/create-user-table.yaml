@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user
+      author: sourcels
+      changes:
+        - createTable:
+            tableName: usr
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: VARCHAR(32)
+                  constraints:
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(1000)
+              - column:
+                  name: active
+                  type: BOOLEAN
+              - column:
+                  name: date_of_created
+                  type: TIMESTAMP
+
+        - createTable:
+            tableName: user_role
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    references: usr(id)
+              - column:
+                  name: role
+                  type: VARCHAR(255)
+                  constraints:
+                    notNull: true
+        - addForeignKeyConstraint:
+            baseTableName: user_role
+            baseColumnNames: user_id
+            referencedTableName: usr
+            referencedColumnNames: id
+            constraintName: FK_user_role_usr

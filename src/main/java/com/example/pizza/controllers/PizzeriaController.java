@@ -49,6 +49,12 @@ public class PizzeriaController {
         return "redirect:/pizzerias";
     }
 
+    @PostMapping("/edit/{pizzeriaId}")
+    public String editPizzeria(@PathVariable Long pizzeriaId, PizzeriaModel pizzeria) {
+        pizzeriaService.editPizzeria(pizzeriaId, pizzeria);
+        return String.format("redirect:/pizzerias/%d", pizzeriaId);
+    }
+
     @PostMapping("/addMeal")
     public String addMealsToPizzeria(@RequestParam Long pizzeriaId, @RequestParam Long mealId) {
         pizzeriaService.addMealToPizzeria(pizzeriaId, mealId);

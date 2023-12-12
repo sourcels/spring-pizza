@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,63 +12,46 @@
     </head>
     <body>
         <header>
-            <h1>Welcome to Pizza-Panel</h1>
+            <h1>Pizza-Panel</h1>
         </header>
 
         <nav>
-            <a href="/" class="<#if springMacroRequestContext.requestUri == "/">active</#if>">Главная страница</a>
+            <a href="/" class="<#if springMacroRequestContext.requestUri == "/">active</#if>">Main Page</a>
             <a href="/pizzerias" class="<#if springMacroRequestContext.requestUri == "/pizzerias">active</#if>">Pizzerias</a>
             <a href="/meals" class="<#if springMacroRequestContext.requestUri == "/meals">active</#if>">Meals</a>
+            <form action="/logout" method="post">
+                <input type="hidden" name="_csrf" value="${_csrf.token}">
+                <input type="submit" value="Sign Out"/>
+            </form>
         </nav>
 
         <body>
-            <!--<div id="dialog-form" title="Add Pizzeria">
-                <h2>Add New Pizzeria</h2>
-
-                <form action="/pizzerias/create" method="post">
-                    <input type="hidden" name="_csrf" value="$.{_csrf.token}">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" maxlength="64" required><br>
-
-                    <label for="phone">Phone:</label>
-                    <input type="text" id="phone" name="phone" maxlength="12" required><br>
-
-                    <label for="address">Address:</label>
-                    <input type="text" id="address" name="address" maxlength="128" required><br>
-
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" name="description"><br>
-
-                    <button type="submit">Add Pizzeria</button>
-                </form>
-            </div>-->
-
             <h1>List of Pizzerias</h1>
 
-            <button type="button" id="addPizzeriaButton" data-csrf="${_csrf.token}">Add New Pizzeria</button>
+            <button type="button" onclick="createDialogPizzeria('${_csrf.token}')">Add New Pizzeria</button>
 
             <#if pizzerias?size == 0>
                 No pizzerias!
             <#else>
-            <table border="1">
+            <table class="pizzeria-table" id="pizzerias_table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Description</th>
+                    <th>Name <button onclick="sortTable('pizzerias_table', 0)">Sort</button></th>
+                    <th>Phone <button onclick="sortTable('pizzerias_table', 1)">Sort</button></th>
+                    <th>Address <button onclick="sortTable('pizzerias_table', 2)">Sort</button></th>
+                    <th>Description <button onclick="sortTable('pizzerias_table', 3)">Sort</button></th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <#list pizzerias as pizzeria>
                     <tr>
-                        <td>${(pizzeria.name?has_content)?then(pizzeria.name, ' - ')}</td>
-                        <td>${(pizzeria.phone?has_content)?then(pizzeria.phone, ' - ')}</td>
-                        <td>${(pizzeria.address?has_content)?then(pizzeria.address, ' - ')}</td>
-                        <td>${(pizzeria.description?has_content)?then(pizzeria.description, ' - ')}</td>
+                        <td>${pizzeria.getName()}</td>
+                        <td>${pizzeria.getPhone()}</td>
+                        <td>${pizzeria.getAddress()}</td>
+                        <td>${pizzeria.getDescription()}</td>
                         <td>
-                            <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post">
+                            <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post" onsubmit="return confirmDelete()">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 <button type="submit">Delete</button>
                             </form>
