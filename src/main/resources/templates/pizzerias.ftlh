@@ -21,7 +21,7 @@
             <a href="/meals" class="<#if springMacroRequestContext.requestUri == "/meals">active</#if>">Meals</a>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <input type="submit" value="Sign Out"/>
+                <button type="submit">Sign Out</button>
             </form>
         </nav>
 
@@ -51,13 +51,14 @@
                         <td>${pizzeria.getAddress()}</td>
                         <td>${pizzeria.getDescription()}</td>
                         <td>
-                            <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post" onsubmit="return confirmDelete()">
+                            <form action="/pizzerias/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <button type="submit">Delete</button>
+                                <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
+                                <button class="delete-btn" type="submit">Delete</button>
                             </form>
                             <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <button type="submit">Details</button>
+                                <button class="detail-btn" type="submit">Details</button>
                             </form>
                         </td>
                     </tr>

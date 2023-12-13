@@ -20,7 +20,7 @@
         <input type="text" id="nameInput" placeholder="Pizzeria name" onkeydown="handleEnter(event)">
         <form action="/logout" method="post">
             <input type="hidden" name="_csrf" value="${_csrf.token}">
-            <input type="submit" value="Sign Out"/>
+            <button type="submit">Sign Out</button>
         </form>
     </nav>
 
@@ -51,7 +51,7 @@
                                 <td>
                                     <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
                                         <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                        <button type="submit">Details</button>
+                                        <button class="detail-btn" type="submit">Details</button>
                                     </form>
                                 </td>
                             </tr>
@@ -86,7 +86,7 @@
                                 <td>
                                     <form action="/meals/${meal.meal_id}" method="get">
                                         <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                        <button type="submit">Details</button>
+                                        <button class="detail-btn" type="submit">Details</button>
                                     </form>
                                 </td>
                             </tr>

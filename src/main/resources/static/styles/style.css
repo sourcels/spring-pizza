@@ -49,6 +49,26 @@ nav a.active {
     border-collapse: collapse;
 }
 
+.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.detail-btn, .edit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 .pizzeria-table th, .pizzeria-table td,
 .meal-table th, .meal-table td {
     border: 1px solid #ddd;

@@ -67,8 +67,8 @@ public class PizzeriaController {
         return String.format("redirect:/pizzerias/%d", pizzeriaId);
     }
 
-    @PostMapping("/delete/{pizzeriaId}")
-    public String deletePizzeria(@PathVariable Long pizzeriaId) {
+    @PostMapping("/delete")
+    public String deletePizzeria(@RequestParam Long pizzeriaId) {
         pizzeriaService.removePizzeriaMeals(pizzeriaId);
         pizzeriaService.deletePizzeria(pizzeriaId);
         return "redirect:/pizzerias";

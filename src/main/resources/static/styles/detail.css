@@ -16,22 +16,6 @@
     font-weight: bold;
 }
 
-/* Delete and Edit Styles */
-.delete-btn, .edit-btn {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.edit-btn {
-    background-color: #007bff;
-}
-
-/* Add Meals Styles */
 .add-meals-container {
     margin-top: 20px;
 }
@@ -45,7 +29,6 @@
     margin-right: 10px;
 }
 
-/* Meals Table Styles */
 .meals-table {
     width: 100%;
     border-collapse: collapse;
@@ -63,7 +46,6 @@
     color: #fff;
 }
 
-/* Pizzeria Not Found Styles */
 .not-found {
     color: #dc3545;
     font-weight: bold;

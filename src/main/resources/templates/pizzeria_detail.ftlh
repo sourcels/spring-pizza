@@ -22,7 +22,7 @@
             <a href="/meals" class="<#if springMacroRequestContext.requestUri == "/meals">active</#if>">Meals</a>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <input type="submit" value="Sign Out"/>
+                <button type="submit">Sign Out</button>
             </form>
         </nav>
 
@@ -45,11 +45,12 @@
                     <dd>${pizzeria.pizzeria_id}</dd>
                 </dl>
 
-                <form action="/pizzerias/delete/${pizzeria.pizzeria_id}" method="post">
+                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${pizzeria.pizzeria_id},'name': '${pizzeria.name}', 'phone': '${pizzeria.phone}', 'address': '${pizzeria.address}', 'description': '${pizzeria.description}'})">Edit Pizzeria</button>
+                <form action="/pizzerias/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
+                    <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
                     <button class="delete-btn" type="submit">Delete Pizzeria</button>
                 </form>
-                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${pizzeria.pizzeria_id},'name': '${pizzeria.name}', 'phone': '${pizzeria.phone}', 'address': '${pizzeria.address}', 'description': '${pizzeria.description}'})">Edit Pizzeria</button>
                 <#if meals?size == 0>
                     <p class="not-found">Select Meal: no meal available, you can <a href="/meals">create meal</a>.</p>
                 <#elseif mealsNotInPizzeria?size == 0>
@@ -89,7 +90,7 @@
                             <td>${pizzeriaMeal.getPrice()}</td>
                             <td>${pizzeriaMeal.getCategory()}</td>
                             <td>
-                                <form action="/pizzerias/deleteMeal" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
+                                <form action="/pizzerias/deleteMeal" method="post">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                                     <input type="hidden" name="mealId" value="${pizzeriaMeal.meal_id}">
                                     <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">

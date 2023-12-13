@@ -22,7 +22,7 @@
             <a href="/meals" class="<#if springMacroRequestContext.requestUri == "/meals">active</#if>">Meals</a>
             <form action="/logout" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}">
-                <input type="submit" value="Sign Out"/>
+                <button type="submit">Sign Out</button>
             </form>
         </nav>
 
@@ -45,12 +45,12 @@
                     <dd>${meal.meal_id}</dd>
                 </dl>
 
+                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${meal.meal_id},'name': '${meal.name}', 'description': '${meal.description}', 'price': '${meal.price}', 'category': '${meal.category}'})">Edit Meal</button>
                 <form action="/meals/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this meal?')">
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                     <input type="hidden" name="mealId" value="${meal.meal_id}">
-                    <button class=delete-btn" type="submit">Delete Meal</button>
+                    <button class="delete-btn" type="submit">Delete Meal</button>
                 </form>
-                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${meal.meal_id},'name': '${meal.name}', 'description': '${meal.description}', 'price': '${meal.price}', 'category': '${meal.category}'})">Edit Meal</button>
             </div>
         <#else>
             <p class="not-found">Meal not found.</p>
