@@ -51,6 +51,7 @@ public class PizzeriaService {
 
             handleMeals(existingPizzeria, updatedPizzeria.getMeals());
 
+            log.info("Saving edited {}", existingPizzeria);
             pizzeriaRepository.save(existingPizzeria);
         }
     }
@@ -105,6 +106,7 @@ public class PizzeriaService {
             pizzeria.getMeals().add(meal);
             meal.getPizzerias().add(pizzeria);
 
+            log.info("Added meal to {}", pizzeria);
             pizzeriaRepository.save(pizzeria);
             mealRepository.save(meal);
         } else {
@@ -121,6 +123,7 @@ public class PizzeriaService {
             PizzeriaModel pizza = optionalPizza.get();
             MealModel meal = optionalMeal.get();
 
+            log.info("Removing {} from pizzeria {}", meal, pizza);
             pizza.getMeals().remove(meal);
             pizzeriaRepository.save(pizza);
         }
@@ -141,6 +144,7 @@ public class PizzeriaService {
     }
 
     public void deletePizzeria(Long pizzeriaId) {
+        log.info("Removing pizzeria by ID:{}", pizzeriaId);
         pizzeriaRepository.deleteById(pizzeriaId);
     }
 }

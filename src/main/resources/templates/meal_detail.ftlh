@@ -45,7 +45,7 @@
                     <dd>${meal.meal_id}</dd>
                 </dl>
 
-                <button class="edit-btn" onclick="editableDialogPizzeria('${_csrf.token}', {'id': ${meal.meal_id},'name': '${meal.name}', 'description': '${meal.description}', 'price': '${meal.price}', 'category': '${meal.category}'})">Edit Meal</button>
+                <button class="edit-btn" onclick="editableDialogMeal('${_csrf.token}', {'id': ${meal.meal_id},'name': '${meal.name}', 'description': '${meal.description}', 'price': '${meal.price}', 'category': '${meal.category}'})">Edit Meal</button>
                 <form action="/meals/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this meal?')">
                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                     <input type="hidden" name="mealId" value="${meal.meal_id}">

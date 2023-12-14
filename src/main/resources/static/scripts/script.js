@@ -89,7 +89,7 @@ function createDialogMeal(csrf) {
     dialogForm.dialog("open");
 }
 
-function editableDialogPizzeria(csrf, meal) {
+function editableDialogMeal(csrf, meal) {
     let dialogForm = $("<div>").attr("id", "dialog-form").attr("title", "Edit Meal");
     let form = $("<form>").attr("action", "/meals/edit/" + meal.id).attr("method", "post");
 

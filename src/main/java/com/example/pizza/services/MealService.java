@@ -45,6 +45,7 @@ public class MealService {
             meal.getPizzerias().remove(pizzeria);
             pizzeria.getMeals().remove(meal);
 
+            log.info("Removing {} from meal {}", pizzeria, meal);
             mealRepository.save(meal);
             pizzeriaRepository.save(pizzeria);
         }
@@ -65,6 +66,7 @@ public class MealService {
     }
 
     public MealModel saveMeal(MealModel meal) {
+        log.info("Saving new {}", meal);
         return mealRepository.save(meal);
     }
 
@@ -77,6 +79,7 @@ public class MealService {
 
             BeanUtils.copyProperties(updatedMeal, existingMeal, getNullPropertyNames(updatedMeal));
 
+            log.info("Saving edited {}", existingMeal);
             mealRepository.save(existingMeal);
         }
     }
@@ -96,6 +99,7 @@ public class MealService {
     }
 
     public void deleteMeal(Long mealId) {
+        log.info("Removing meal by ID:{}", mealId);
         mealRepository.deleteById(mealId);
     }
 }
