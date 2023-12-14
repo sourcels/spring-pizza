@@ -36,7 +36,7 @@
                     <dd>${meal.getDescription()}</dd>
 
                     <dt>Price:</dt>
-                    <dd>${meal.getPrice()}</dd>
+                    <dd>${meal.getPrice()}€</dd>
 
                     <dt>Category:</dt>
                     <dd>${meal.getCategory()}</dd>

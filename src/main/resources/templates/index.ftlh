@@ -81,7 +81,7 @@
                             <tr>
                                 <td>${meal.getName()}</td>
                                 <td>${meal.getDescription()}</td>
-                                <td>${meal.getPrice()}</td>
+                                <td>${meal.getPrice()}€</td>
                                 <td>${meal.getCategory()}</td>
                                 <td>
                                     <form action="/meals/${meal.meal_id}" method="get">

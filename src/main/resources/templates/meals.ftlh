@@ -26,44 +26,47 @@
         </nav>
 
         <body>
-            <h1>List of Meals</h1>
-            <button type="button" onclick="createDialogMeal('${_csrf.token}')">Add New Meal</button>
-            <#if meals?size == 0>
-                No meals!
-            <#else>
-                <table class="meal-table" id="meals_table">
-                    <thead>
-                    <tr>
-                        <th>Name <button onclick="sortTable('meals_table', 0)">Sort</button></th>
-                        <th>Description <button onclick="sortTable('meals_table', 1)">Sort</button></th>
-                        <th>Price <button onclick="sortTable('meals_table', 2)">Sort</button></th>
-                        <th>Category <button onclick="sortTable('meals_table', 3)">Sort</button></th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <#list meals as meal>
-                        <tr>
-                            <td>${meal.getName()}</td>
-                            <td>${meal.getDescription()}</td>
-                            <td>${meal.getPrice()}</td>
-                            <td>${meal.getCategory()}</td>
-                            <td>
-                                <form action="/meals/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this meal?')">
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                    <input type="hidden" name="mealId" value="${meal.meal_id}">
-                                    <button class="delete-btn" type="submit">Delete</button>
-                                </form>
-                                <form action="/meals/${meal.meal_id}" method="get">
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                    <button class="detail-btn" type="submit">Details</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </#list>
-                    </tbody>
-                </table>
-            </#if>
+            <div class="data-container">
+                <div class="meal-container">
+                    <button type="button" onclick="createDialogMeal('${_csrf.token}')">Add New Meal</button>
+                    <#if meals?size == 0>
+                        No meals!
+                    <#else>
+                        <table class="meal-table" id="meals_table">
+                            <thead>
+                            <tr>
+                                <th>Name <button onclick="sortTable('meals_table', 0)">Sort</button></th>
+                                <th>Description <button onclick="sortTable('meals_table', 1)">Sort</button></th>
+                                <th>Price <button onclick="sortTable('meals_table', 2)">Sort</button></th>
+                                <th>Category <button onclick="sortTable('meals_table', 3)">Sort</button></th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <#list meals as meal>
+                                <tr>
+                                    <td>${meal.getName()}</td>
+                                    <td>${meal.getDescription()}</td>
+                                    <td>${meal.getPrice()}€</td>
+                                    <td>${meal.getCategory()}</td>
+                                    <td>
+                                        <form action="/meals/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this meal?')">
+                                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                            <input type="hidden" name="mealId" value="${meal.meal_id}">
+                                            <button class="delete-btn" type="submit">Delete</button>
+                                        </form>
+                                        <form action="/meals/${meal.meal_id}" method="get">
+                                            <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                            <button class="detail-btn" type="submit">Details</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </#list>
+                            </tbody>
+                        </table>
+                    </#if>
+                </div>
+            </div>
         </body>
     </body>
     <footer>

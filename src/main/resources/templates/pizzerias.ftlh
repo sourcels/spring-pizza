@@ -26,46 +26,48 @@
         </nav>
 
         <body>
-            <h1>List of Pizzerias</h1>
+            <div class="data-container">
+                <div class="pizzeria-container">
+                    <button type="button" onclick="createDialogPizzeria('${_csrf.token}')">Add New Pizzeria</button>
 
-            <button type="button" onclick="createDialogPizzeria('${_csrf.token}')">Add New Pizzeria</button>
-
-            <#if pizzerias?size == 0>
-                No pizzerias!
-            <#else>
-            <table class="pizzeria-table" id="pizzerias_table">
-                <thead>
-                <tr>
-                    <th>Name <button onclick="sortTable('pizzerias_table', 0)">Sort</button></th>
-                    <th>Phone <button onclick="sortTable('pizzerias_table', 1)">Sort</button></th>
-                    <th>Address <button onclick="sortTable('pizzerias_table', 2)">Sort</button></th>
-                    <th>Description <button onclick="sortTable('pizzerias_table', 3)">Sort</button></th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <#list pizzerias as pizzeria>
-                    <tr>
-                        <td>${pizzeria.getName()}</td>
-                        <td>${pizzeria.getPhone()}</td>
-                        <td>${pizzeria.getAddress()}</td>
-                        <td>${pizzeria.getDescription()}</td>
-                        <td>
-                            <form action="/pizzerias/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
-                                <button class="delete-btn" type="submit">Delete</button>
-                            </form>
-                            <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <button class="detail-btn" type="submit">Details</button>
-                            </form>
-                        </td>
-                    </tr>
-                </#list>
-                </tbody>
-            </table>
-            </#if>
+                    <#if pizzerias?size == 0>
+                        No pizzerias!
+                    <#else>
+                    <table class="pizzeria-table" id="pizzerias_table">
+                        <thead>
+                        <tr>
+                            <th>Name <button onclick="sortTable('pizzerias_table', 0)">Sort</button></th>
+                            <th>Phone <button onclick="sortTable('pizzerias_table', 1)">Sort</button></th>
+                            <th>Address <button onclick="sortTable('pizzerias_table', 2)">Sort</button></th>
+                            <th>Description <button onclick="sortTable('pizzerias_table', 3)">Sort</button></th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <#list pizzerias as pizzeria>
+                            <tr>
+                                <td>${pizzeria.getName()}</td>
+                                <td>${pizzeria.getPhone()}</td>
+                                <td>${pizzeria.getAddress()}</td>
+                                <td>${pizzeria.getDescription()}</td>
+                                <td>
+                                    <form action="/pizzerias/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this pizzeria?')">
+                                        <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                        <input type="hidden" name="pizzeriaId" value="${pizzeria.pizzeria_id}">
+                                        <button class="delete-btn" type="submit">Delete</button>
+                                    </form>
+                                    <form action="/pizzerias/${pizzeria.pizzeria_id}" method="get">
+                                        <input type="hidden" name="_csrf" value="${_csrf.token}">
+                                        <button class="detail-btn" type="submit">Details</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+                    </#if>
+                </div>
+            </div>
         </body>
     </body>
     <footer>

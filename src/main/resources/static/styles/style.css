@@ -32,7 +32,6 @@ nav a.active {
 .data-container {
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 100vh;
 }
 
@@ -42,11 +41,14 @@ nav a.active {
     background-color: white;
     border: 1px solid #ddd;
     padding: 20px;
+    max-height: 1000px;
+    overflow: scroll;
 }
 
 .pizzeria-table, .meal-table {
     width: 100%;
     border-collapse: collapse;
+    margin: 10px 0;
 }
 
 .delete-btn {

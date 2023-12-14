@@ -65,7 +65,7 @@ class PizzaApplicationTests {
 	public void testRemovePizzeriaFromMeal() {
 		Set<PizzeriaModel> pizzerias = new HashSet<PizzeriaModel>();
 		Set<MealModel> meals = new HashSet<MealModel>();
-		MealModel meal = new MealModel(4L, "TEST Dessert1", "TEST description ABCDEFG", 12, MealCategory.Dessert, pizzerias);
+		MealModel meal = new MealModel(4L, "TEST Pasta1", "TEST description ABCDEFG", 12, MealCategory.Pasta, pizzerias);
 		PizzeriaModel pizzeria = new PizzeriaModel(1L, "Test Pizzeria", "3805678345", "Hauptstr. 1 12345", "TEST description", meals);
 
 		when(mealRepository.findById(1L)).thenReturn(Optional.of(meal));

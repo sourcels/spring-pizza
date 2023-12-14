@@ -72,14 +72,14 @@
                     </div>
                 </#if>
 
-                <table class="meals-table">
+                <table class="meals-table" id="meals_table">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>Actions</th>
+                        <th>Name <button onclick="sortTable('meals_table', 0)">Sort</button></th>
+                        <th>Description <button onclick="sortTable('meals_table', 1)">Sort</button></th>
+                        <th>Price <button onclick="sortTable('meals_table', 2)">Sort</button></th>
+                        <th>Category <button onclick="sortTable('meals_table', 3)">Sort</button></th>
+                        <th>Actions </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -87,7 +87,7 @@
                         <tr>
                             <td>${pizzeriaMeal.getName()}</td>
                             <td>${pizzeriaMeal.getDescription()}</td>
-                            <td>${pizzeriaMeal.getPrice()}</td>
+                            <td>${pizzeriaMeal.getPrice()}€</td>
                             <td>${pizzeriaMeal.getCategory()}</td>
                             <td>
                                 <form action="/pizzerias/deleteMeal" method="post">
