@@ -14,7 +14,6 @@ Pizza-Panel is a project that made for Tel-Ran school. It provides user to creat
 - [Liquidbase](https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/springboot/)
 - [Lombok Plugin](https://projectlombok.org/features/)
 - [SpringDOC](https://springdoc.org/)
-- [Collections](https://docs.oracle.com/javase/8/docs/api/java/util/Collections.html)
 - [Slf4j](https://www.slf4j.org/docs.html)
 - [JUnit5](https://junit.org/junit5/docs/current/user-guide/)
 - [Jacoco Plugin](https://www.eclemma.org/jacoco/trunk/doc/maven.html)
